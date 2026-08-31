@@ -1,24 +1,15 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowDown, ArrowUpRight, Atom, Orbit } from "lucide-react";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
+  head: () => ({ meta: [{ title: "Qiskit Fall Fest 2026 — Quantum, together" }, { name: "description", content: "Three days of quantum computing, ideas, and making. September 5–7, 2026." }, { property: "og:title", content: "Qiskit Fall Fest 2026" }, { property: "og:description", content: "Three days of quantum computing, ideas, and making." }] }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
+  return <main>
+    <section className="relative flex min-h-[780px] items-end overflow-hidden border-b border-line px-5 pb-16 pt-40 sm:px-10 lg:min-h-[900px] lg:px-16 lg:pb-24"><div className="pointer-events-none absolute right-[8%] top-[22%] text-purple/80"><Orbit className="size-[clamp(10rem,25vw,25rem)] stroke-[0.5]" /></div><div className="pointer-events-none absolute right-[21%] top-[32%] size-3 rounded-full bg-pink shadow-[0_0_35px_10px_var(--pink)]" /><div className="relative z-10 mx-auto w-full max-w-[1500px]"><p className="mb-9 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.16em] text-pink"><span className="h-px w-8 bg-pink" /> National quantum computing event</p><h1 className="max-w-[1100px] font-display text-[clamp(4.7rem,14vw,13.5rem)] uppercase leading-[0.78] tracking-[-0.075em] text-paper">Quantum,<br /><span className="text-pink">together.</span></h1><div className="mt-14 flex flex-col justify-between gap-8 border-t border-line pt-5 sm:flex-row sm:items-end"><p className="max-w-sm text-lg leading-relaxed text-foreground/65">Three days to meet the machines that are changing what’s possible.</p><div className="flex items-center gap-8"><span className="text-right text-xs font-bold uppercase tracking-[0.15em] text-foreground/55">05 — 07<br /><span className="text-pink">September 2026</span></span><Link to="/register" aria-label="Register for Qiskit Fall Fest" className="group flex size-16 items-center justify-center rounded-full bg-pink text-ink transition-transform hover:scale-105"><ArrowUpRight className="size-6 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" /></Link></div></div></div></section>
+    <section className="border-b border-line px-5 py-24 sm:px-10 lg:px-16 lg:py-36"><div className="mx-auto grid max-w-[1500px] gap-16 lg:grid-cols-[1fr_2.1fr]"><div className="flex items-start gap-3 text-xs font-bold uppercase tracking-[0.16em] text-pink"><span>01</span><span className="text-foreground/35">/</span><span>The event</span></div><div><h2 className="max-w-4xl font-display text-[clamp(3rem,7vw,8rem)] uppercase leading-[0.86] tracking-[-0.06em] text-paper">A festival for the <span className="text-purple">curious.</span></h2><div className="mt-14 grid gap-8 border-t border-line pt-6 sm:grid-cols-[1fr_auto]"><p className="max-w-md text-lg leading-relaxed text-foreground/65">Qiskit Fall Fest brings builders, researchers, and first-time explorers into the same room. Come with questions. Leave with new ones.</p><Link to="/workshops" className="group inline-flex items-center gap-2 self-end text-xs font-bold uppercase tracking-[0.14em] text-pink">See the program <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" /></Link></div></div></div></section>
+    <section className="grid border-b border-line md:grid-cols-3"><Link to="/hackathon" className="group border-b border-line p-5 transition-colors hover:bg-pink hover:text-ink md:border-b-0 md:border-r sm:p-10 lg:p-16"><Atom className="mb-20 size-10 stroke-[1] text-pink transition-colors group-hover:text-ink" /><p className="text-xs font-bold uppercase tracking-[0.16em]">02 / Make</p><h3 className="mt-5 font-display text-4xl uppercase leading-[0.9] tracking-[-0.05em]">Hack<br />the future.</h3></Link><Link to="/workshops" className="group border-b border-line p-5 transition-colors hover:bg-purple sm:p-10 md:border-b-0 md:border-r lg:p-16"><ArrowDown className="mb-20 size-10 stroke-[1] text-pink transition-colors group-hover:text-paper" /><p className="text-xs font-bold uppercase tracking-[0.16em]">03 / Learn</p><h3 className="mt-5 font-display text-4xl uppercase leading-[0.9] tracking-[-0.05em]">Open<br />the box.</h3></Link><Link to="/register" className="group p-5 transition-colors hover:bg-paper hover:text-ink sm:p-10 lg:p-16"><ArrowUpRight className="mb-20 size-10 stroke-[1] text-pink transition-colors group-hover:text-ink" /><p className="text-xs font-bold uppercase tracking-[0.16em]">04 / Join</p><h3 className="mt-5 font-display text-4xl uppercase leading-[0.9] tracking-[-0.05em]">Save<br />your seat.</h3></Link></section>
+  </main>;
 }

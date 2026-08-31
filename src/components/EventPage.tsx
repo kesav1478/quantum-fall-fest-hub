@@ -1,0 +1,8 @@
+import { Link } from "@tanstack/react-router";
+import { ArrowUpRight } from "lucide-react";
+
+export type EventRoute = "/register" | "/hackathon" | "/workshops" | "/day-1" | "/day-2" | "/day-3" | "/certificates" | "/sponsors" | "/faq" | "/contact" | "/privacy" | "/code-of-conduct";
+
+export function EventPage({ number, eyebrow, title, description, route }: { number: string; eyebrow: string; title: string; description: string; route: EventRoute }) {
+  return <main className="min-h-[70vh] border-b border-line px-5 pb-24 pt-32 sm:px-10 lg:px-16 lg:pb-36 lg:pt-44"><div className="mx-auto grid max-w-[1400px] gap-20 lg:grid-cols-[1fr_2.1fr] lg:gap-8"><div className="flex items-start gap-3 text-xs font-semibold uppercase tracking-[0.16em] text-pink"><span>{number}</span><span className="text-foreground/35">/</span><span>{eyebrow}</span></div><div><h1 className="max-w-5xl font-display text-[clamp(3.3rem,10vw,9.5rem)] uppercase leading-[0.86] tracking-[-0.055em] text-paper">{title}</h1><div className="mt-14 grid max-w-2xl gap-8 border-t border-line pt-6 sm:grid-cols-[1fr_auto] sm:items-end"><p className="max-w-md text-lg leading-relaxed text-foreground/65">{description}</p><Link to={route} className="group inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-pink">Explore <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" /></Link></div></div></div></main>;
+}

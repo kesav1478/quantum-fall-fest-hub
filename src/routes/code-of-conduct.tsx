@@ -1,0 +1,3 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { EventPage } from "../components/EventPage";
+export const Route = createFileRoute("/code-of-conduct")({ head: () => ({ meta: [{ title: "Code of Conduct — Qiskit Fall Fest 2026" }, { name: "description", content: "The Qiskit Fall Fest 2026 code of conduct." }, { property: "og:title", content: "Code of Conduct — Qiskit Fall Fest 2026" }, { property: "og:description", content: "Our shared code for a welcoming event." }] }), component: () => <EventPage number="13" eyebrow="Code of conduct" title="Make room." description="A shared commitment to making this a generous, thoughtful, and welcoming place for everyone." route="/code-of-conduct" /> });
