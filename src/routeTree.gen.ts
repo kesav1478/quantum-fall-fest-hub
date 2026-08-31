@@ -10,33 +10,193 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CertificatesRouteImport } from './routes/certificates'
+import { Route as CodeOfConductRouteImport } from './routes/code-of-conduct'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as Day1RouteImport } from './routes/day-1'
+import { Route as Day2RouteImport } from './routes/day-2'
+import { Route as Day3RouteImport } from './routes/day-3'
+import { Route as FaqRouteImport } from './routes/faq'
+import { Route as HackathonRouteImport } from './routes/hackathon'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as RegisterRouteImport } from './routes/register'
+import { Route as SponsorsRouteImport } from './routes/sponsors'
+import { Route as WorkshopsRouteImport } from './routes/workshops'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CertificatesRoute = CertificatesRouteImport.update({
+  id: '/certificates',
+  path: '/certificates',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CodeOfConductRoute = CodeOfConductRouteImport.update({
+  id: '/code-of-conduct',
+  path: '/code-of-conduct',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Day1Route = Day1RouteImport.update({
+  id: '/day-1',
+  path: '/day-1',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Day2Route = Day2RouteImport.update({
+  id: '/day-2',
+  path: '/day-2',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Day3Route = Day3RouteImport.update({
+  id: '/day-3',
+  path: '/day-3',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HackathonRoute = HackathonRouteImport.update({
+  id: '/hackathon',
+  path: '/hackathon',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SponsorsRoute = SponsorsRouteImport.update({
+  id: '/sponsors',
+  path: '/sponsors',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WorkshopsRoute = WorkshopsRouteImport.update({
+  id: '/workshops',
+  path: '/workshops',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/certificates': typeof CertificatesRoute
+  '/code-of-conduct': typeof CodeOfConductRoute
+  '/contact': typeof ContactRoute
+  '/day-1': typeof Day1Route
+  '/day-2': typeof Day2Route
+  '/day-3': typeof Day3Route
+  '/faq': typeof FaqRoute
+  '/hackathon': typeof HackathonRoute
+  '/privacy': typeof PrivacyRoute
+  '/register': typeof RegisterRoute
+  '/sponsors': typeof SponsorsRoute
+  '/workshops': typeof WorkshopsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/certificates': typeof CertificatesRoute
+  '/code-of-conduct': typeof CodeOfConductRoute
+  '/contact': typeof ContactRoute
+  '/day-1': typeof Day1Route
+  '/day-2': typeof Day2Route
+  '/day-3': typeof Day3Route
+  '/faq': typeof FaqRoute
+  '/hackathon': typeof HackathonRoute
+  '/privacy': typeof PrivacyRoute
+  '/register': typeof RegisterRoute
+  '/sponsors': typeof SponsorsRoute
+  '/workshops': typeof WorkshopsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/certificates': typeof CertificatesRoute
+  '/code-of-conduct': typeof CodeOfConductRoute
+  '/contact': typeof ContactRoute
+  '/day-1': typeof Day1Route
+  '/day-2': typeof Day2Route
+  '/day-3': typeof Day3Route
+  '/faq': typeof FaqRoute
+  '/hackathon': typeof HackathonRoute
+  '/privacy': typeof PrivacyRoute
+  '/register': typeof RegisterRoute
+  '/sponsors': typeof SponsorsRoute
+  '/workshops': typeof WorkshopsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/certificates'
+    | '/code-of-conduct'
+    | '/contact'
+    | '/day-1'
+    | '/day-2'
+    | '/day-3'
+    | '/faq'
+    | '/hackathon'
+    | '/privacy'
+    | '/register'
+    | '/sponsors'
+    | '/workshops'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/certificates'
+    | '/code-of-conduct'
+    | '/contact'
+    | '/day-1'
+    | '/day-2'
+    | '/day-3'
+    | '/faq'
+    | '/hackathon'
+    | '/privacy'
+    | '/register'
+    | '/sponsors'
+    | '/workshops'
+  id:
+    | '__root__'
+    | '/'
+    | '/certificates'
+    | '/code-of-conduct'
+    | '/contact'
+    | '/day-1'
+    | '/day-2'
+    | '/day-3'
+    | '/faq'
+    | '/hackathon'
+    | '/privacy'
+    | '/register'
+    | '/sponsors'
+    | '/workshops'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CertificatesRoute: typeof CertificatesRoute
+  CodeOfConductRoute: typeof CodeOfConductRoute
+  ContactRoute: typeof ContactRoute
+  Day1Route: typeof Day1Route
+  Day2Route: typeof Day2Route
+  Day3Route: typeof Day3Route
+  FaqRoute: typeof FaqRoute
+  HackathonRoute: typeof HackathonRoute
+  PrivacyRoute: typeof PrivacyRoute
+  RegisterRoute: typeof RegisterRoute
+  SponsorsRoute: typeof SponsorsRoute
+  WorkshopsRoute: typeof WorkshopsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +208,107 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/certificates': {
+      id: '/certificates'
+      path: '/certificates'
+      fullPath: '/certificates'
+      preLoaderRoute: typeof CertificatesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/code-of-conduct': {
+      id: '/code-of-conduct'
+      path: '/code-of-conduct'
+      fullPath: '/code-of-conduct'
+      preLoaderRoute: typeof CodeOfConductRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/day-1': {
+      id: '/day-1'
+      path: '/day-1'
+      fullPath: '/day-1'
+      preLoaderRoute: typeof Day1RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/day-2': {
+      id: '/day-2'
+      path: '/day-2'
+      fullPath: '/day-2'
+      preLoaderRoute: typeof Day2RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/day-3': {
+      id: '/day-3'
+      path: '/day-3'
+      fullPath: '/day-3'
+      preLoaderRoute: typeof Day3RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hackathon': {
+      id: '/hackathon'
+      path: '/hackathon'
+      fullPath: '/hackathon'
+      preLoaderRoute: typeof HackathonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sponsors': {
+      id: '/sponsors'
+      path: '/sponsors'
+      fullPath: '/sponsors'
+      preLoaderRoute: typeof SponsorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/workshops': {
+      id: '/workshops'
+      path: '/workshops'
+      fullPath: '/workshops'
+      preLoaderRoute: typeof WorkshopsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CertificatesRoute: CertificatesRoute,
+  CodeOfConductRoute: CodeOfConductRoute,
+  ContactRoute: ContactRoute,
+  Day1Route: Day1Route,
+  Day2Route: Day2Route,
+  Day3Route: Day3Route,
+  FaqRoute: FaqRoute,
+  HackathonRoute: HackathonRoute,
+  PrivacyRoute: PrivacyRoute,
+  RegisterRoute: RegisterRoute,
+  SponsorsRoute: SponsorsRoute,
+  WorkshopsRoute: WorkshopsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
