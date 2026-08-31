@@ -1,126 +1,33 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import {
-  Outlet,
-  Link,
-  createRootRouteWithContext,
-  useRouter,
-  HeadContent,
-  Scripts,
-} from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
-
+import { Outlet, Link, createRootRouteWithContext, useRouter, HeadContent, Scripts } from "@tanstack/react-router";
+import { ChevronDown, ChevronRight, Menu, X } from "lucide-react";
+import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { Button } from "../components/ui/button";
 
-function NotFoundComponent() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
-        </p>
-        <div className="mt-6">
-          <Link
-            to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Go home
-          </Link>
-        </div>
-      </div>
-    </div>
-  );
+const programLinks = [["DAY 01", "/day-1"], ["DAY 02", "/day-2"], ["DAY 03", "/day-3"]] as const;
+const footerLinks = [["Register", "/register"], ["Hackathon", "/hackathon"], ["Workshops", "/workshops"], ["Day 01", "/day-1"], ["Day 02", "/day-2"], ["Day 03", "/day-3"], ["Certificates", "/certificates"], ["Sponsors", "/sponsors"], ["FAQ", "/faq"], ["Contact", "/contact"], ["Privacy", "/privacy"], ["Code of conduct", "/code-of-conduct"]] as const;
+
+function ArrowSmall() { return <span aria-hidden="true">↗</span>; }
+
+function LoginModal({ loggedIn, setLoggedIn, close }: { loggedIn: boolean; setLoggedIn: (value: boolean) => void; close: () => void }) {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => { event.preventDefault(); setLoggedIn(true); };
+  return <div className="fixed inset-0 z-[60] flex items-center justify-center bg-ink/80 px-5 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="login-title"><div className="relative w-full max-w-md border border-line bg-card p-7 shadow-2xl sm:p-10"><Button variant="ghost" size="icon" className="absolute right-3 top-3" onClick={close} aria-label="Close login"><X /></Button>{!loggedIn ? <><p className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-pink">Attendee access</p><h2 id="login-title" className="font-display text-5xl uppercase leading-none tracking-[-0.05em]">Welcome back.</h2><form className="mt-9 space-y-5" onSubmit={handleSubmit}><label className="block text-xs font-bold uppercase tracking-[0.12em] text-foreground/60">Email<input required type="email" className="mt-2 h-12 w-full border-b border-input bg-transparent px-0 text-base outline-none transition-colors focus:border-pink" /></label><label className="block text-xs font-bold uppercase tracking-[0.12em] text-foreground/60">Password<input required type="password" className="mt-2 h-12 w-full border-b border-input bg-transparent px-0 text-base outline-none transition-colors focus:border-pink" /></label><Button type="submit" className="mt-3 w-full">Login <ArrowSmall /></Button></form></> : <><p className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-pink">You are signed in</p><h2 id="login-title" className="font-display text-5xl uppercase leading-none tracking-[-0.05em]">Welcome.</h2><div className="mt-9 grid gap-3"><Link to="/register" onClick={close} className="flex items-center justify-between border border-line px-4 py-4 text-xs font-bold uppercase tracking-[0.12em] transition-colors hover:border-pink hover:text-pink">My registration <ArrowSmall /></Link><Button variant="outline" onClick={() => { setLoggedIn(false); close(); }}>Logout</Button></div></>}</div></div>;
 }
 
-function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
-  console.error(error);
-  const router = useRouter();
-  useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
-  }, [error]);
-
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground">
-          This page didn't load
-        </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
-        </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
-          <button
-            onClick={() => {
-              router.invalidate();
-              reset();
-            }}
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Try again
-          </button>
-          <a
-            href="/"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
-          >
-            Go home
-          </a>
-        </div>
-      </div>
-    </div>
-  );
+function Navbar() {
+  const [scrolled, setScrolled] = useState(false); const [menuOpen, setMenuOpen] = useState(false); const [programOpen, setProgramOpen] = useState(false); const [loginOpen, setLoginOpen] = useState(false); const [loggedIn, setLoggedIn] = useState(false);
+  useEffect(() => { const onScroll = () => setScrolled(window.scrollY > 16); onScroll(); window.addEventListener("scroll", onScroll, { passive: true }); return () => window.removeEventListener("scroll", onScroll); }, []);
+  useEffect(() => { document.body.style.overflow = menuOpen || loginOpen ? "hidden" : ""; return () => { document.body.style.overflow = ""; }; }, [menuOpen, loginOpen]);
+  return <><header className={`fixed inset-x-0 top-0 z-40 border-b transition-all duration-300 ${scrolled ? "border-line bg-ink/95 backdrop-blur-md" : "border-transparent bg-transparent"}`}><div className="mx-auto flex h-[76px] max-w-[1500px] items-center justify-between px-5 sm:px-10 lg:px-16"><Link to="/" className="group flex items-center gap-3" onClick={() => setMenuOpen(false)}><span className="flex size-9 items-center justify-center rounded-full bg-pink font-display text-sm text-ink">Q</span><span className="font-display text-sm uppercase tracking-[-0.02em] text-paper">Qiskit<br /><span className="font-body text-[9px] font-bold tracking-[0.22em] text-pink">Fall Fest 26</span></span></Link><nav className="hidden items-center gap-8 lg:flex"><div className="relative"><button className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.12em] text-paper/75 transition-colors hover:text-pink" onClick={() => setProgramOpen((open) => !open)} aria-expanded={programOpen}>Program <ChevronDown className={`size-3 transition-transform ${programOpen ? "rotate-180" : ""}`} /></button>{programOpen && <div className="animate-menu-in absolute left-0 top-8 w-44 border border-line bg-ink p-2 shadow-2xl">{programLinks.map(([label, to]) => <Link key={to} to={to} onClick={() => setProgramOpen(false)} className="flex items-center justify-between px-3 py-3 text-xs font-bold uppercase tracking-[0.12em] text-paper/75 transition-colors hover:bg-pink hover:text-ink">{label}<ChevronRight className="size-3" /></Link>)}</div>}</div><Link to="/hackathon" className="text-xs font-bold uppercase tracking-[0.12em] text-paper/75 transition-colors hover:text-pink">Hackathon</Link><Link to="/workshops" className="text-xs font-bold uppercase tracking-[0.12em] text-paper/75 transition-colors hover:text-pink">Workshops</Link><Link to="/certificates" className="text-xs font-bold uppercase tracking-[0.12em] text-paper/75 transition-colors hover:text-pink">Certificates</Link></nav><div className="hidden items-center gap-5 lg:flex"><button onClick={() => setLoginOpen(true)} className="text-xs font-bold uppercase tracking-[0.12em] text-paper/75 transition-colors hover:text-pink">{loggedIn ? "Account" : "Login"}</button><Button asChild size="sm"><Link to="/register">Register <ArrowSmall /></Link></Button></div><Button variant="ghost" size="icon" className="text-paper lg:hidden" onClick={() => setMenuOpen(true)} aria-label="Open navigation menu"><Menu /></Button></div></header>{menuOpen && <div className="animate-menu-in fixed inset-0 z-50 flex min-h-screen flex-col bg-ink px-5 py-6 sm:px-10"><div className="flex items-center justify-between"><Link to="/" onClick={() => setMenuOpen(false)} className="font-display text-sm uppercase text-paper">Qiskit <span className="text-pink">/ 26</span></Link><Button variant="ghost" size="icon" className="text-paper" onClick={() => setMenuOpen(false)} aria-label="Close navigation menu"><X /></Button></div><nav className="mt-20 flex flex-col items-start gap-5 font-display text-[clamp(2.5rem,12vw,5rem)] uppercase leading-none tracking-[-0.05em] text-paper"><span className="mb-1 font-body text-xs font-bold tracking-[0.2em] text-pink">Program</span>{programLinks.map(([label, to]) => <Link key={to} to={to} onClick={() => setMenuOpen(false)} className="transition-colors hover:text-pink">{label}</Link>)}<Link to="/hackathon" onClick={() => setMenuOpen(false)} className="transition-colors hover:text-pink">Hackathon</Link><Link to="/workshops" onClick={() => setMenuOpen(false)} className="transition-colors hover:text-pink">Workshops</Link><Link to="/certificates" onClick={() => setMenuOpen(false)} className="transition-colors hover:text-pink">Certificates</Link></nav><div className="mt-auto flex items-center gap-4 border-t border-line pt-6"><button onClick={() => { setLoginOpen(true); setMenuOpen(false); }} className="text-xs font-bold uppercase tracking-[0.15em] text-paper">{loggedIn ? "Account" : "Login"}</button><Button asChild><Link to="/register" onClick={() => setMenuOpen(false)}>Register <ArrowSmall /></Link></Button></div></div>}{loginOpen && <LoginModal loggedIn={loggedIn} setLoggedIn={setLoggedIn} close={() => setLoginOpen(false)} />}</>;
 }
 
-export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => ({
-    meta: [
-      { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
-    ],
-    links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
-    ],
-  }),
-  shellComponent: RootShell,
-  component: RootComponent,
-  notFoundComponent: NotFoundComponent,
-  errorComponent: ErrorComponent,
-});
+function Footer() { return <footer className="border-t border-line bg-ink px-5 py-12 sm:px-10 lg:px-16"><div className="mx-auto max-w-[1500px]"><div className="flex flex-col justify-between gap-12 border-b border-line pb-12 lg:flex-row"><div><p className="font-display text-3xl uppercase tracking-[-0.05em] text-paper">Qiskit <span className="text-pink">Fall Fest</span></p><p className="mt-3 max-w-xs text-sm leading-relaxed text-foreground/55">A national quantum computing gathering, hosted by our college.</p></div><div className="grid grid-cols-2 gap-x-12 gap-y-3 sm:grid-cols-3 lg:grid-cols-4">{footerLinks.map(([label, to]) => <Link key={to} to={to} className="text-xs font-bold uppercase tracking-[0.1em] text-foreground/55 transition-colors hover:text-pink">{label}</Link>)}</div></div><div className="flex flex-col justify-between gap-3 pt-6 text-[10px] font-bold uppercase tracking-[0.12em] text-foreground/40 sm:flex-row"><span>© 2026 Qiskit Fall Fest</span><span>Sept 05 — 07 · Hosted by our college</span></div></div></footer>; }
 
-function RootShell({ children }: { children: ReactNode }) {
-  return (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  );
-}
+function NotFoundComponent() { return <div className="flex min-h-screen items-center justify-center bg-background px-4"><div className="max-w-md text-center"><h1 className="font-display text-7xl text-foreground">404</h1><h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2><p className="mt-2 text-sm text-muted-foreground">The page you’re looking for doesn’t exist or has moved.</p><Link to="/" className="mt-6 inline-flex items-center justify-center rounded-sm bg-primary px-4 py-2 text-sm font-medium text-primary-foreground">Go home</Link></div></div>; }
+function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) { console.error(error); const router = useRouter(); useEffect(() => { reportLovableError(error, { boundary: "tanstack_root_error_component" }); }, [error]); return <div className="flex min-h-screen items-center justify-center bg-background px-4"><div className="max-w-md text-center"><h1 className="text-xl font-semibold text-foreground">This page didn’t load</h1><p className="mt-2 text-sm text-muted-foreground">Something went wrong. Try refreshing or head back home.</p><div className="mt-6 flex justify-center gap-2"><Button onClick={() => { router.invalidate(); reset(); }}>Try again</Button><Button asChild variant="outline"><Link to="/">Go home</Link></Button></div></div></div>; }
 
-function RootComponent() {
-  const { queryClient } = Route.useRouteContext();
-
-  return (
-    <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
-    </QueryClientProvider>
-  );
-}
+export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({ head: () => ({ meta: [{ charSet: "utf-8" }, { name: "viewport", content: "width=device-width, initial-scale=1" }, { title: "Qiskit Fall Fest 2026 — Quantum, together" }, { name: "description", content: "Qiskit Fall Fest 2026 is a three-day national quantum computing event, hosted by our college." }, { name: "author", content: "Qiskit Fall Fest 2026" }, { property: "og:title", content: "Qiskit Fall Fest 2026" }, { property: "og:description", content: "Three days of quantum computing, ideas, and making. September 5–7, 2026." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }], links: [{ rel: "stylesheet", href: appCss }, { rel: "icon", href: "/favicon.ico", type: "image/x-icon" }, { rel: "preconnect", href: "https://fonts.googleapis.com" }, { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" }, { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;500;600;700&display=swap" }] }), shellComponent: RootShell, component: RootComponent, notFoundComponent: NotFoundComponent, errorComponent: ErrorComponent });
+function RootShell({ children }: { children: ReactNode }) { return <html lang="en"><head><HeadContent /></head><body>{children}<Scripts /></body></html>; }
+function RootComponent() { const { queryClient } = Route.useRouteContext(); return <QueryClientProvider client={queryClient}><Navbar /><Outlet /><Footer /></QueryClientProvider>; }
