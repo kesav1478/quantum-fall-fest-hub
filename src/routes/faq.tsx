@@ -1,0 +1,3 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { EventPage } from "../components/EventPage";
+export const Route = createFileRoute("/faq")({ head: () => ({ meta: [{ title: "FAQ — Qiskit Fall Fest 2026" }, { name: "description", content: "Answers to frequently asked questions about Qiskit Fall Fest 2026." }, { property: "og:title", content: "FAQ — Qiskit Fall Fest 2026" }, { property: "og:description", content: "Answers about the event, access, and attendance." }] }), component: () => <EventPage number="10" eyebrow="FAQ" title="Questions welcome." description="Everything you need to know before you join us. The full answer bank is on its way." route="/faq" /> });

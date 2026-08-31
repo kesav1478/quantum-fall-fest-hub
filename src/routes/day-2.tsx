@@ -1,0 +1,3 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { EventPage } from "../components/EventPage";
+export const Route = createFileRoute("/day-2")({ head: () => ({ meta: [{ title: "Day 02 — Qiskit Fall Fest 2026" }, { name: "description", content: "The Day 02 program for Qiskit Fall Fest 2026." }, { property: "og:title", content: "Day 02 — Qiskit Fall Fest 2026" }, { property: "og:description", content: "The second day of Qiskit Fall Fest 2026." }] }), component: () => <EventPage number="06" eyebrow="Day 02 · September 06" title="Go deeper." description="A full day of making, learning, and following the signal wherever it leads." route="/day-2" /> });
